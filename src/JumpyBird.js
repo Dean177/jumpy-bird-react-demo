@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 export default class JumpyBird extends Component {
   render() {
     return (
-      <h1>Hello World</h1>
+      <h1>Hello Worldsa</h1>
     );
   }
 }

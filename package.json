@@ -1,14 +1,17 @@
 {
   "name": "react-flappy-demo",
   "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Live coding demo",
   "scripts": {
     "start": "node webpack.server.js",
     "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Dean Merchant",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Dean177/jumpy-bird-react-demo.git"
+  },
+  "author": "Dean Merchant <deanmerchant@gmail.com> (http://github.com/dean177)",
   "license": "MIT",
   "dependencies": {
     "babel": "^5.8.23",

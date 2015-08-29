@@ -1,13 +1,13 @@
 import React from 'react';
-import { createRedux } from 'redux';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import JumpyBird from './JumpyBird';
 import Reducer from './Reducer';
 
-const redux = createRedux({ JumpyReducer: Reducer });
+const store = createStore(Reducer);
 
 React.render(
-  (<Provider redux={redux}>
+  (<Provider store={store}>
     {() => <JumpyBird />}
   </Provider>),
   document.getElementById('jumpy-bird')
