@@ -9,8 +9,16 @@ const initialState = {
   startTime: 0,
   flappyStartTime: 0,
   flappyY: 200,
+  velocity: 0,
+  score: 0,
+  highScore: 0,
   pillarList: [
-    { startTime: 0, currentX: 450, posX: 450, gapTop: 200 }
+    {
+      startTime: 0,
+      currentX: gc.firstPillarX,
+      posX: gc.firstPillarX,
+      gapTop: 200
+    }
   ]
 };
 
@@ -19,31 +27,48 @@ export default function Reducer(state = initialState, action) {
     case Actions.UpdateFlappy:
       return {
         ...state,
-        flappyY: action.newY
+        flappyY: action.newY,
+        velocity: action.velocity
       };
 
-    case Actions.Reset:
+    case Actions.UpdatePillars:
       return {
-        ...initialState,
-        timerRunning: true,
-        startTime: performance.now()
+        ...state,
+        pillarList: action.pillars
+      };
+
+    case Actions.UpdateBorder:
+      return {
+        ...state,
+        borderPosition: action.borderPosition
+      };
+
+    case Actions.UpdateScore:
+      let {score} = action;
+      return {
+        ...state,
+        score,
+        highScore: (score > state.highScore) ? score : state.highScore
       };
 
     case Actions.GameOver:
+      let newHighScore = (action.score > state.highScore) ? action.score : state.highScore;
       return {
         ...state,
-        timerRunning: false
-      }
+        timerRunning: false,
+        highScore: newHighScore
+      };
 
     case Actions.Start:
       return {
-        ...state,
+        ...initialState,
         timerRunning: true,
+        highScore: state.highScore,
         startTime: performance.now()
       };
 
     case Actions.Flap:
-      if ( ! state.timerRunning) { return state; }
+    if ( ! state.timerRunning) { return state; }
       let newState = {
         ...state,
         jumpCount: state.jumpCount + 1,

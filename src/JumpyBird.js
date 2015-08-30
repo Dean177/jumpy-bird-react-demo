@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as gc from './GameConstants';
 import { flap, startGame } from './ActionCreators';
+import Flappy from './Flappy';
 
 @connect((state) => state)
 export default class JumpyBird extends Component {
@@ -11,18 +12,19 @@ export default class JumpyBird extends Component {
 
     this.handleClick = (event) => {
       event.preventDefault();
-      this.props.dispatch(flap());
-    }
+      this.props.dispatch(flap(this.props.timerRunning));
+    };
 
     this.startGame = (event) => {
       event.preventDefault();
+      event.stopPropagation();
       this.props.dispatch(startGame());
-    }
+    };
   }
 
-  getPillar({ currentX, posX, gapTop }) {
-    let upperHeight = gapTop
-    let lowerHeight = gc.bottomY - gapTop - gc.pillarGap
+  getPillar ({ currentX, posX, gapTop }) {
+    let upperHeight = gapTop;
+    let lowerHeight = gc.bottomY - gapTop - gc.pillarGap;
     return (
       <div key={posX} className="pillars">
         <div className="pillar pillar-upper" style={{ left: currentX, height: upperHeight }}/>
@@ -31,26 +33,19 @@ export default class JumpyBird extends Component {
     );
   }
 
-  getScore (currentTime, startTime) {
-    let currentX = (currentTime - startTime) * gc.horizVel;
-    let score = Math.floor((currentX - 544) / gc.pillarSpacing) -3;
-
-    return (score < 0) ? 0 : score;
-  }
-
   render() {
     const {
       flappyY,
       pillarList,
-      dispatch,
       timerRunning,
       jumpCount,
       borderPosition,
-      startTime
+      velocity,
+      score,
+      highScore,
     } = this.props;
 
     const pillars = pillarList.map(this.getPillar);
-    const score = this.getScore(performance.now(), startTime);
     const buttonText = (jumpCount >= 1) ? "RESTART" : "START";
 
     return (
@@ -60,9 +55,10 @@ export default class JumpyBird extends Component {
         <div>
           {pillars}
         </div>
-        <div className="flappy" style={{ top: flappyY }} />
+        <Flappy y={flappyY} velocity={velocity} />
         <div className="scrolling-border" style={{ backgroundPosition: borderPosition }}/>
-        <h3 className="jump-count">{jumpCount}</h3>
+        <h3 className="jump-count">Flaps: {jumpCount}</h3>
+        <h3 className="high-score">High Score: {highScore}</h3>
       </div>
     );
   }
