@@ -4,16 +4,14 @@ import * as gc from './GameConstants';
 export function flap() {
   // TODO play sound
   return {
-    type: ActionTypes.Flap
+    type: ActionTypes.Flap,
+    time: performance.now()
   };
 }
 
-export function startGame(timestamp) {
-  // window.requestAnimationFrame((time) => {})
-
+export function startGame() {
   return {
-    type: ActionTypes.Reset,
-    timestamp
+    type: ActionTypes.Start
   }
 }
 
@@ -23,14 +21,15 @@ function sineWavePosition(timeDelta) {
 
 export function updateFlappy(timeDelta, initialVelocity, flappyY, jumpCount) {
   let newY;
-  if (jumpCount > 0) {
-    let currentVelocity = initialVelocity - (timeDelta * gc.gravity);
-    flappyY - currentVelocity;
-    if (newY > (gc.bottomY - gc.flappyHeight)) {
-      newY = bottomY - gc.flappyHeight;
-    }
-  } else {
+  if (jumpCount < 1) {
     newY = sineWavePosition(timeDelta);
+  } else {
+    let currentVelocity = initialVelocity + (timeDelta * gc.gravity);
+
+    newY = flappyY - currentVelocity;
+    if (newY > (gc.bottomY - gc.flappyHeight)) {
+      newY = gc.bottomY - gc.flappyHeight;
+    }
   }
 
   return {
@@ -41,7 +40,7 @@ export function updateFlappy(timeDelta, initialVelocity, flappyY, jumpCount) {
 }
 
 function randInt(n) {
-
+  return Math.floor(Math.random() * n);
 }
 
 function newPillar(currTime, posX) {
@@ -53,12 +52,25 @@ function newPillar(currTime, posX) {
   };
 }
 
+function pillarsInWorld() {
+  return 3;
+}
+
 export function updatePillars(pillarList, currentTime) {
-  if (pillarList.length < 3) {
-    pillarList.push(newPillar(currentTime, gc.pillarSpacing + (pillarList[pillarList.length - 1].curX)))
+
+  if (pillarsInWorld() < 3) {
+    pillarList.push(newPillar(currentTime, gc.pillarSpacing + (pillarList[pillarList.length - 1].currentX)))
   }
 
   return {
-    type: ActionTypes.UpdatePillars
+    type: ActionTypes.UpdatePillars,
+    pillars: pillarList
+  }
+}
+
+export function gameOver() {
+  console.log("Crashed");
+  return {
+    type: ActionTypes.GameOver
   }
 }

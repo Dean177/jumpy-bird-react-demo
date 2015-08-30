@@ -20,6 +20,24 @@ export default class JumpyBird extends Component {
     }
   }
 
+  getPillar({ currentX, posX, gapTop }) {
+    let upperHeight = gapTop
+    let lowerHeight = gc.bottomY - gapTop - gc.pillarGap
+    return (
+      <div key={posX} className="pillars">
+        <div className="pillar pillar-upper" style={{ left: currentX, height: upperHeight }}/>
+        <div className="pillar pillar-lower" style={{ left: currentX, height: lowerHeight }}/>
+      </div>
+    );
+  }
+
+  getScore (currentTime, startTime) {
+    let currentX = (currentTime - startTime) * gc.horizVel;
+    let score = Math.floor((currentX - 544) / gc.pillarSpacing) -3;
+
+    return (score < 0) ? 0 : score;
+  }
+
   render() {
     const {
       flappyY,
@@ -27,31 +45,24 @@ export default class JumpyBird extends Component {
       dispatch,
       timerRunning,
       jumpCount,
-      borderPosition
+      borderPosition,
+      startTime
     } = this.props;
 
-    let pillars = pillarList.map(({ currentX, posX, gapTop }) => {
-      let upperHeight = gapTop
-      let lowerHeight = gc.bottomY - gapTop - gc.pillarGap
-      return (
-        <div key={posX} className="pillars">
-          <div className="pillar pillar-upper" style={{ left: currentX, height: upperHeight }}/>
-          <div className="pillar pillar-lower" style={{ left: currentX, height: lowerHeight }}/>
-        </div>
-      );
-    })
-
+    const pillars = pillarList.map(this.getPillar);
+    const score = this.getScore(performance.now(), startTime);
     const buttonText = (jumpCount >= 1) ? "RESTART" : "START";
 
     return (
       <div className="board" onClick={this.handleClick}>
-        <h1 className="score">{jumpCount}</h1>
+        <h1 className="score">{score}</h1>
         { ( ! timerRunning) ? <a className="start-button" onClick={this.startGame}>{buttonText}</a> : <span /> }
         <div>
           {pillars}
         </div>
         <div className="flappy" style={{ top: flappyY }} />
         <div className="scrolling-border" style={{ backgroundPosition: borderPosition }}/>
+        <h3 className="jump-count">{jumpCount}</h3>
       </div>
     );
   }

@@ -17,7 +17,6 @@ const initialState = {
 export default function Reducer(state = initialState, action) {
   switch (action.type) {
     case Actions.UpdateFlappy:
-      console.log(action);
       return {
         ...state,
         flappyY: action.newY
@@ -26,15 +25,30 @@ export default function Reducer(state = initialState, action) {
     case Actions.Reset:
       return {
         ...initialState,
-        timerRunning: true
+        timerRunning: true,
+        startTime: performance.now()
+      };
+
+    case Actions.GameOver:
+      return {
+        ...state,
+        timerRunning: false
+      }
+
+    case Actions.Start:
+      return {
+        ...state,
+        timerRunning: true,
+        startTime: performance.now()
       };
 
     case Actions.Flap:
+      if ( ! state.timerRunning) { return state; }
       let newState = {
         ...state,
         jumpCount: state.jumpCount + 1,
         initialVelocity: gc.jumpVel,
-        flappyStartTime: action.currentTime
+        flappyStartTime: action.time
       };
 
       return newState;

@@ -1,8 +1,8 @@
 import * as gc from './GameConstants';
-import { updateFlappy } from './ActionCreators';
+import { updateFlappy, updatePillars, gameOver } from './ActionCreators';
 
 function inPillar(currentX) {
-  return ((flappyX + flappyWidth) >= currentX) && (flappyX < (currentX + pillarWidth));
+  return ((gc.flappyX + gc.flappyWidth) >= currentX) && (gc.flappyX < (currentX + gc.pillarWidth));
 }
 
 function inPillarGap(flappyY, gapTop) {
@@ -10,29 +10,26 @@ function inPillarGap(flappyY, gapTop) {
 }
 
 function hasLanded(flappyY) {
-  return (flappyY >= (bottomY - flappyHeight));
+  return (flappyY >= (gc.bottomY - gc.flappyHeight));
 }
 
 function hasCollided(currentX, flappyY) {
   return hasLanded() || (inPillar() && !inPillarGap());
 }
 
-function score(currentTime, startTime) {
-  (currentTime - startTime) * horizVel
-  let score = Math.abs();
-
-  return (score < 0) ? 0 : score;
-}
-
 export default function gameLoop(stateStore) {
   let store = stateStore;
+
   const timeStep = (timeStamp) => {
-    const { initialVelocity, flappyY, jumpCount, flappyStartTime } = store.getState();
+    const { initialVelocity, flappyY, jumpCount, flappyStartTime, pillarList } = store.getState();
     const timeDelta =  flappyStartTime - timeStamp
     store.dispatch(updateFlappy(timeDelta, initialVelocity, flappyY, jumpCount))
-    // updatePillars
+    store.dispatch(updatePillars(pillarList, timeStamp));
+
+    if (hasCollided()) {
+      store.dispatch(gameOver())
+    }
     // collision
-    // score
 
     window.requestAnimationFrame(timeStep);
   };
