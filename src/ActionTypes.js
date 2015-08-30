@@ -1,7 +1,9 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-    Reset: null,
+    Collide: null,
     Flap: null,
-    UpdatePillars: null
+    Reset: null,
+    UpdateFlappy: null,
+    UpdatePillars: null,
 });
