@@ -1,11 +1,13 @@
 <html>
-  <head>
-    <title>JumpyBird</title>
-    <link rel="shortcut icon" href="/static/images/jumpy.ico" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.67, maximum-scale=0.67, user-scalable=no">
-  </head>
-  <body>
-    <div id="jumpy-bird"></div>
-    <script src="/static/bundle.js"></script>
-  </body>
+<head>
+  <title>JumpyBird</title>
+  <link rel="shortcut icon" href="/assets/images/jumpy.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.67, maximum-scale=0.67, user-scalable=no">
+</head>
+<body>
+<div id="jumpy-bird"></div>
+<script src="/socket.io/socket.io.js"></script>
+<script>var socket = io('http://localhost:9000'); console.log("connect", socket);</script>
+<script src="/assets/bundle.js"></script>
+</body>
 </html>

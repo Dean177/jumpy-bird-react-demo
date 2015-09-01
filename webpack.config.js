@@ -1,17 +1,19 @@
 var path = require('path');
 var webpack = require('webpack');
 
+var webpackPort = 9090;
+
 module.exports = {
     devtool: 'eval',
     entry: [
-      'webpack-dev-server/client?http://localhost:3000/',
+      'webpack-dev-server/client?http://localhost:9090/',
       'webpack/hot/only-dev-server',
       './src/index'
     ],
     output: {
       path: path.join(__dirname, 'dist'),
       filename: 'bundle.js',
-      publicPath: '/static/'
+      publicPath: '/assets/'
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin()
