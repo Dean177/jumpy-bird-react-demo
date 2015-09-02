@@ -3,15 +3,18 @@ import * as gc from './GameConstants';
 
 
 const initialState = {
-  timerRunning: false,
-  jumpCount: 0,
-  initialVelocity: 0,
-  startTime: 0,
   flappyStartTime: 0,
   flappyY: 200,
-  velocity: 0,
-  score: 0,
   highScore: 0,
+  initialVelocity: 0,
+  jumpCount: 0,
+  name: "",
+  score: 0,
+  startTime: 0,
+  timerRunning: false,
+  uuid: null,
+  velocity: 0,
+  highScores: [],
   pillarList: [
     {
       startTime: 0,
@@ -24,22 +27,12 @@ const initialState = {
 
 export default function Reducer(state = initialState, action) {
   switch (action.type) {
-    case Actions.UpdateFlappy:
+    case Actions.UpdateGameEntities:
       return {
         ...state,
         flappyY: action.newY,
-        velocity: action.velocity
-      };
-
-    case Actions.UpdatePillars:
-      return {
-        ...state,
-        pillarList: action.pillars
-      };
-
-    case Actions.UpdateBorder:
-      return {
-        ...state,
+        velocity: action.velocity,
+        pillarList: action.pillars,
         borderPosition: action.borderPosition
       };
 
@@ -64,11 +57,14 @@ export default function Reducer(state = initialState, action) {
         ...initialState,
         timerRunning: true,
         highScore: state.highScore,
-        startTime: performance.now()
+        highScores: state.highScores,
+        startTime: performance.now(),
+        name: state.name,
+        uuid: state.uuid
       };
 
     case Actions.Flap:
-    if ( ! state.timerRunning) { return state; }
+      if ( ! state.timerRunning) { return state; }
       let newState = {
         ...state,
         jumpCount: state.jumpCount + 1,
@@ -77,6 +73,24 @@ export default function Reducer(state = initialState, action) {
       };
 
       return newState;
+
+    case Actions.Uuid:
+      return {
+        ...state,
+        uuid: action.uuid
+      };
+
+    case Actions.HighScores:
+      return {
+        ...state,
+        highScores: action.highScores
+      };
+
+    case Actions.NameUpdate:
+      return {
+        ...state,
+        name: action.name
+      };
 
     default:
       return state;

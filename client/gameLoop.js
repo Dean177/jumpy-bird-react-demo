@@ -1,5 +1,5 @@
 import * as gc from './GameConstants';
-import { updateBorder, updateFlappy, updatePillars, updateScore, gameOver } from './ActionCreators';
+import { updateGameEntities, updateScore, gameOver } from './ActionCreators';
 
 function inPillar({ currentX }) {
   return ((gc.flappyX + gc.flappyWidth) >= currentX) && (gc.flappyX < (currentX + gc.pillarWidth));
@@ -32,17 +32,16 @@ export default function gameLoop(stateStore) {
   let store = stateStore;
 
   const timeStep = (timeStamp) => {
-    const { initialVelocity, flappyY, jumpCount, flappyStartTime, pillarList, timerRunning, startTime, score } = store.getState();
+    const { initialVelocity, flappyY, jumpCount, flappyStartTime, pillarList, timerRunning, startTime, score, highScore, uuid, name } = store.getState();
     const timeDelta =  flappyStartTime - timeStamp;
-    store.dispatch(updateFlappy(timeDelta, initialVelocity, flappyY, jumpCount));
+
+    store.dispatch(updateGameEntities(timerRunning, pillarList, timeStamp, startTime, timeDelta, initialVelocity, flappyY, jumpCount));
     if (timerRunning) {
       if (hasCollided(pillarList, flappyY)) {
         store.dispatch(gameOver())
       }
 
-      store.dispatch(updatePillars(pillarList, timeStamp, startTime));
-      store.dispatch(updateBorder(timeStamp));
-      store.dispatch(updateScore(score, getScore(timeStamp - startTime)));
+      store.dispatch(updateScore(score, getScore(timeStamp - startTime), highScore, uuid, name));
     }
 
     window.requestAnimationFrame(timeStep);

@@ -14,7 +14,6 @@ export function flap(timerRunning) {
     jump.pause();
     jump.currentTime = 0;
     jump.play();
-    socket.emit('flap', { a: 'flapped'});
   }
   return {
     type: ActionTypes.Flap,
@@ -26,7 +25,7 @@ function sineWavePosition(timeDelta) {
   return gc.startY + (30 * Math.sin(timeDelta / 300));
 }
 
-export function updateFlappy(timeDelta, initialVelocity, flappyY, jumpCount) {
+function getNewFlappy(timeDelta, initialVelocity, flappyY, jumpCount) {
   let newY;
   let velocity = initialVelocity;
   if (jumpCount < 1) {
@@ -42,7 +41,6 @@ export function updateFlappy(timeDelta, initialVelocity, flappyY, jumpCount) {
   }
 
   return {
-    type: ActionTypes.UpdateFlappy,
     newY,
     velocity
   };
@@ -76,7 +74,7 @@ function translatePillars(pillarList, timeDelta) {
   });
 }
 
-export function updatePillars(pillarList, currentTime, startTime) {
+function getNewPillarPositions(pillarList, currentTime, startTime) {
   let newPillars = translatePillars(pillarList, (currentTime - startTime))
     .filter(pillar => { return pillar.currentX > -gc.pillarWidth; });
 
@@ -86,22 +84,30 @@ export function updatePillars(pillarList, currentTime, startTime) {
     newPillars.push(newPill);
   }
 
-  return {
-    type: ActionTypes.UpdatePillars,
-    pillars: newPillars
-  }
+  return newPillars;
 }
 
-export function updateBorder(currentTime) {
-  return {
-    type: ActionTypes.UpdateBorder,
-    borderPosition: translate(0, gc.horizVel, currentTime) % 23
-  }
+function getNewBorderPosition(currentTime) {
+  return translate(0, gc.horizVel, currentTime) % 23
 }
 
-export function updateScore(oldScore, newScore) {
+export function updateGameEntities(timerRunning, pillarList, currentTime, startTime, timeDelta, initialVelocity, flappyY, jumpCount) {
+  const { newY, velocity } = getNewFlappy(timeDelta, initialVelocity, flappyY, jumpCount);
+  return {
+    type: ActionTypes.UpdateGameEntities,
+    pillars: (timerRunning) ? getNewPillarPositions(pillarList, currentTime, startTime) : pillarList,
+    borderPosition: (timerRunning) ? getNewBorderPosition(currentTime) : 0,
+    newY,
+    velocity
+  };
+}
+
+export function updateScore(oldScore, newScore, highScore, uuid, name) {
   if (newScore > oldScore) {
     coin.play();
+  }
+  if (newScore > highScore) {
+    socket.emit('highScore', { uuid, score: newScore, name });
   }
   return {
     type: ActionTypes.UpdateScore,
@@ -113,5 +119,27 @@ export function gameOver() {
   crash.play();
   return {
     type: ActionTypes.GameOver
+  }
+}
+
+export function highScores(highScores) {
+  return {
+    type: ActionTypes.HighScores,
+    highScores
+  }
+}
+
+export function getUuid(uuid) {
+  return {
+    type: ActionTypes.Uuid,
+    uuid
+  }
+}
+
+export function nameUpdate(name, uuid) {
+  socket.emit('nameChange', {name, uuid});
+  return {
+    type: ActionTypes.NameUpdate,
+    name
   }
 }

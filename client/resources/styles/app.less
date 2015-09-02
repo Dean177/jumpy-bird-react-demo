@@ -1,20 +1,58 @@
-body {
-   background-color: rgb(32,35,50);
+@slide-background:  rgb(32,35,50);
+
+.retroText() {
+  margin: 0;
+  text-align: center;
+  color: #fff;
+  text-shadow: -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black;
+  font-family: monospace;
+  font-size: 22px;
 }
 
-#jumpy-bird {
-    position: relative;
-    width: 480px;
-    height: 640px;
-    margin:0px auto;
-    background: rgb(112, 197, 206) url(../images/background.png) no-repeat left bottom;
+body {
+  background-color: @slide-background;
 }
 
 .board {
-    position: relative;
-    width:480px;
-    height: 640px;
-    overflow: hidden;
+  position: relative;
+  width: 480px;
+  height: 640px;
+  overflow: hidden;
+  margin: 0 auto;
+  background: rgb(112, 197, 206) url(../images/background.png) no-repeat left bottom;
+}
+
+.side-panel {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+}
+
+.name-entry {
+  .retroText();
+  input {
+    margin-left: 3px;
+    color: white;
+    background-color: @slide-background;
+    border: none;
+    border-bottom: solid white 2px;
+    padding: 3px;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.high-scores {
+  float:left;
+  .retroText();
+  .scores {
+    margin-top: 0;
+    float:left;
+    padding-left: 0;
+    font-size: 22px;
+    list-style: none;
+  }
 }
 
 .scrolling-border {
@@ -54,14 +92,6 @@ body {
   background-image: url(../images/lower-pillar-head.png), url(../images/pillar-bkg.png);
   background-position: left top, left top;
   background-repeat: no-repeat, repeat-y;
-}
-
-.retroText() {
-  margin: 0;
-  text-align: center;
-  color: #fff;
-  text-shadow: -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black;
-  font-family: monospace;
 }
 
 .score {
