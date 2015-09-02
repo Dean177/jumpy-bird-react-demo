@@ -11,10 +11,9 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    socket.on('event', (msg) => {
-
-    });
-    console.log("User connected");
+  socket.on('flap', (event) => {
+    console.log("Flapped", event);
+  });
 });
 
 http.listen(9000, () => {

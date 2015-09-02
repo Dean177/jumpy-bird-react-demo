@@ -1,28 +1,30 @@
-var path = require('path');
-var webpack = require('webpack');
+import path from 'path';
+import webpack, { HotModuleReplacementPlugin } from 'webpack';
 
-var webpackPort = 9090;
+export const webpackPort = 9090;
 
-module.exports = {
-    devtool: 'eval',
-    entry: [
-      'webpack-dev-server/client?http://localhost:9090/',
-      'webpack/hot/only-dev-server',
-      './src/index'
-    ],
-    output: {
-      path: path.join(__dirname, 'dist'),
-      filename: 'bundle.js',
-      publicPath: '/assets/'
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin()
-    ],
-    module: {
-      loaders: [
-        { test: /\.js$/, loaders: ['react-hot', 'babel?stage=1'], include: path.join(__dirname, 'src') },
-        { test: /\.less$/, loader: "style!css!less" },
-        { test: /\.png$/, loader: "file-loader" }
-      ]
-    }
+const config  = {
+  devtool: 'eval',
+  entry: [
+    `webpack-dev-server/client?http://localhost:${webpackPort}/`,
+    'webpack/hot/only-dev-server',
+    './client/index'
+  ],
+  output: {
+    path: path.join(__dirname, 'out/client'),
+    filename: 'bundle.js',
+    publicPath: '/assets/'
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
+  module: {
+    loaders: [
+      { test: /\.js$/, loaders: ['react-hot', 'babel?stage=1'], include: path.join(__dirname, 'client') },
+      { test: /\.less$/, loader: "style!css!less" },
+      { test: /\.png$/, loader: "file-loader" }
+    ]
+  }
 };
+
+export default config;

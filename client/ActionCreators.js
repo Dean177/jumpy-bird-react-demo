@@ -1,3 +1,4 @@
+import { socket } from './App';
 import ActionTypes from './ActionTypes';
 import * as gc from './GameConstants';
 import { jump, crash, coin } from './resources/sounds/index';
@@ -13,6 +14,7 @@ export function flap(timerRunning) {
     jump.pause();
     jump.currentTime = 0;
     jump.play();
+    socket.emit('flap', { a: 'flapped'});
   }
   return {
     type: ActionTypes.Flap,
