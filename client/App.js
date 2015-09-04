@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 import Reducer from './Reducer';
 import gameLoop from './gameLoop';
 import JumpyBird from './JumpyBird';
+import Slides from './Slides';
 
 const store = createStore(Reducer);
 const onNewFrame = gameLoop(store);
@@ -19,7 +20,11 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        {() => <JumpyBird />}
+        {() =>
+          <Slides>
+            <JumpyBird />
+          </Slides>
+        }
       </Provider>
     );
   }
