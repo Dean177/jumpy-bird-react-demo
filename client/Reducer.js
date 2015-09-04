@@ -75,6 +75,7 @@ export default function Reducer(state = initialState, action) {
       return newState;
 
     case Actions.Uuid:
+      if (state.uuid) { return state; }
       return {
         ...state,
         uuid: action.uuid

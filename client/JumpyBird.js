@@ -6,7 +6,7 @@ import { flap, startGame, nameUpdate } from './ActionCreators';
 import Flappy from './Flappy';
 
 @connect((state) => state)
-export default class JumpyBird extends Component {
+class JumpyBird extends Component {
   constructor(props) {
     super(props);
 
@@ -22,7 +22,7 @@ export default class JumpyBird extends Component {
     };
 
     this.onNameChange = (event) => {
-      this.props.dispatch(nameUpdate(event.target.value));
+      this.props.dispatch(nameUpdate(event.target.value, this.props.uuid));
     }
   }
 
@@ -84,3 +84,5 @@ export default class JumpyBird extends Component {
     );
   }
 }
+
+export default JumpyBird
