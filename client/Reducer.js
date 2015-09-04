@@ -8,7 +8,7 @@ const initialState = {
   highScore: 0,
   initialVelocity: 0,
   jumpCount: 0,
-  name: "",
+  name: "New Player",
   score: 0,
   startTime: 0,
   timerRunning: false,

@@ -7,7 +7,7 @@ import webpack from 'webpack';
 import webpackConfig, { webpackPort } from './webpack.config';
 import WebpackDevServer from 'webpack-dev-server';
 
-gulp.task('app-server', () => { nodemon({ script: 'out/server.js'}); });
+gulp.task('app-server', () => { nodemon({ script: 'out/server.js', ignore: ['client/**/*.js']}); });
 
 gulp.task('compile-server', ['build', 'watch', 'webpack-server']);
 
