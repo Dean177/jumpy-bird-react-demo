@@ -1,5 +1,5 @@
-import Actions from './ActionTypes';
-import * as gc from './GameConstants';
+import { UpdateGameEntities, UpdateScore, GameOver, Start, Flap, Uuid, HighScores, NameUpdate  } from '../../shared/Constants/FlappyActionTypes';
+import * as gc from '../Constants/GameConstants';
 
 
 const initialState = {
@@ -27,7 +27,7 @@ const initialState = {
 
 export default function Reducer(state = initialState, action) {
   switch (action.type) {
-    case Actions.UpdateGameEntities:
+    case UpdateGameEntities:
       return {
         ...state,
         flappyY: action.newY,
@@ -36,7 +36,7 @@ export default function Reducer(state = initialState, action) {
         borderPosition: action.borderPosition
       };
 
-    case Actions.UpdateScore:
+    case UpdateScore:
       let {score} = action;
       return {
         ...state,
@@ -44,7 +44,7 @@ export default function Reducer(state = initialState, action) {
         highScore: (score > state.highScore) ? score : state.highScore
       };
 
-    case Actions.GameOver:
+    case GameOver:
       let newHighScore = (action.score > state.highScore) ? action.score : state.highScore;
       return {
         ...state,
@@ -52,7 +52,7 @@ export default function Reducer(state = initialState, action) {
         highScore: newHighScore
       };
 
-    case Actions.Start:
+    case Start:
       return {
         ...initialState,
         timerRunning: true,
@@ -63,7 +63,7 @@ export default function Reducer(state = initialState, action) {
         uuid: state.uuid
       };
 
-    case Actions.Flap:
+    case Flap:
       if ( ! state.timerRunning) { return state; }
       let newState = {
         ...state,
@@ -74,20 +74,20 @@ export default function Reducer(state = initialState, action) {
 
       return newState;
 
-    case Actions.Uuid:
+    case Uuid:
       if (state.uuid) { return state; }
       return {
         ...state,
         uuid: action.uuid
       };
 
-    case Actions.HighScores:
+    case HighScores:
       return {
         ...state,
         highScores: action.highScores
       };
 
-    case Actions.NameUpdate:
+    case NameUpdate:
       return {
         ...state,
         name: action.name

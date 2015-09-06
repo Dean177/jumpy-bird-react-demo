@@ -1,14 +1,20 @@
-import '!style!css!less!./resources/styles/app.less';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as gc from './GameConstants';
-import { flap, startGame, nameUpdate } from './ActionCreators';
+import * as gc from './../Constants/GameConstants';
+import { flap, startGame, nameUpdate } from './../ActionCreators/Flappy';
 import Flappy from './Flappy';
+import { Space } from './../Constants/KeyCodes';
 
-@connect((state) => state)
+@connect((state) => state.flappy)
 class JumpyBird extends Component {
   constructor(props) {
     super(props);
+
+    this.handleKeyPress = (event) => {
+      if (event.keyCode === Space) {
+        this.props.dispatch(flap(this.props.timerRunning));
+      }
+    };
 
     this.handleClick = (event) => {
       event.preventDefault();
@@ -21,8 +27,8 @@ class JumpyBird extends Component {
       this.props.dispatch(startGame());
     };
 
-    this.onNameChange = (event) => {
-      this.props.dispatch(nameUpdate(event.target.value, this.props.uuid));
+    this.onNameChange = ({ target: { value } }) => {
+      this.props.dispatch(nameUpdate(value, this.props.uuid));
     }
   }
 
@@ -35,6 +41,14 @@ class JumpyBird extends Component {
         <div className="pillar pillar-lower" style={{ left: currentX, height: lowerHeight }}/>
       </div>
     );
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyPress);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyPress);
   }
 
   render() {

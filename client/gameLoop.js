@@ -1,5 +1,5 @@
-import * as gc from './GameConstants';
-import { updateGameEntities, updateScore, gameOver } from './ActionCreators';
+import * as gc from './Constants/GameConstants';
+import { updateGameEntities, updateScore, gameOver } from './ActionCreators/Flappy';
 
 function inPillar({ currentX }) {
   return ((gc.flappyX + gc.flappyWidth) >= currentX) && (gc.flappyX < (currentX + gc.pillarWidth));
@@ -32,7 +32,7 @@ export default function gameLoop(stateStore) {
   let store = stateStore;
 
   const timeStep = (timeStamp) => {
-    const { initialVelocity, flappyY, jumpCount, flappyStartTime, pillarList, timerRunning, startTime, score, highScore, uuid, name } = store.getState();
+    const { initialVelocity, flappyY, jumpCount, flappyStartTime, pillarList, timerRunning, startTime, score, highScore, uuid, name } = store.getState().flappy;
     const timeDelta =  flappyStartTime - timeStamp;
 
     store.dispatch(updateGameEntities(timerRunning, pillarList, timeStamp, startTime, timeDelta, initialVelocity, flappyY, jumpCount));

@@ -20,7 +20,14 @@ const config  = {
   ],
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['react-hot', 'babel?stage=1'], include: path.join(__dirname, 'client') },
+      {
+        test: /\.js$/,
+        loaders: ['react-hot', 'babel?stage=0'],
+        include: [
+          path.join(__dirname, 'client'),
+          path.join(__dirname, 'shared')
+        ]
+      },
       { test: /\.less$/, loader: "style!css!less" },
       { test: /\.png$/, loader: "file-loader" }
     ]

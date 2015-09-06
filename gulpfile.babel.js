@@ -11,9 +11,9 @@ gulp.task('app-server', () => { nodemon({ script: 'out/server.js', ignore: ['cli
 
 gulp.task('compile-server', ['build', 'watch', 'webpack-server']);
 
-gulp.task('watch', () => { gulp.watch('server/**', ['build']); });
+gulp.task('watch', () => { gulp.watch(['server.js', 'shared/**/*.js'], ['build']); });
 
-gulp.task('build', () => { gulp.src('server/**.js').pipe(babel()).pipe(gulp.dest('out')); });
+gulp.task('build', () => { gulp.src(['server.js', 'shared/**/*.js'], { base: '.' }).pipe(babel()).pipe(gulp.dest('out')); });
 
 gulp.task('webpack-server', () => {
   new WebpackDevServer(webpack(webpackConfig), {
@@ -26,6 +26,6 @@ gulp.task('webpack-server', () => {
     inline: true
   }).listen(webpackPort, '0.0.0.0', (err, result) => {
     if (err) { gutil(err); }
-    gutil.log(`Listening at localhost:${webpackPort}`);
+    gutil.log(`Listening on port ${webpackPort}`);
   });
 });

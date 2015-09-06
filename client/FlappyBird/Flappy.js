@@ -1,6 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 
 class Flappy extends Component {
+  static propTypes = {
+    y: PropTypes.number.isRequired,
+    velocity: PropTypes.number.isRequired
+  };
+
   render() {
     const { y, velocity } = this.props;
     const rotation = `rotate(${velocity}deg)`;
@@ -12,10 +17,5 @@ class Flappy extends Component {
     );
   }
 }
-
-Flappy.propTypes = {
-    y: PropTypes.number.isRequired,
-    velocity: PropTypes.number.isRequired
-};
 
 export default Flappy

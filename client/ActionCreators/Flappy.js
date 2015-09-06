@@ -1,11 +1,11 @@
-import { socket } from './App';
-import ActionTypes from './ActionTypes';
-import * as gc from './GameConstants';
-import { jump, crash, coin } from './resources/sounds/index';
+import { socket } from './../App';
+import { UpdateGameEntities, UpdateScore, GameOver, Start, Flap, Uuid, HighScores, NameUpdate  } from '../../shared/Constants/FlappyActionTypes';
+import * as gc from './../Constants/GameConstants';
+import { jump, crash, coin } from './../resources/sounds/index';
 
 export function startGame() {
   return {
-    type: ActionTypes.Start
+    type: Start
   }
 }
 
@@ -16,7 +16,7 @@ export function flap(timerRunning) {
     jump.play();
   }
   return {
-    type: ActionTypes.Flap,
+    type: Flap,
     time: performance.now()
   };
 }
@@ -94,7 +94,7 @@ function getNewBorderPosition(currentTime) {
 export function updateGameEntities(timerRunning, pillarList, currentTime, startTime, timeDelta, initialVelocity, flappyY, jumpCount) {
   const { newY, velocity } = getNewFlappy(timeDelta, initialVelocity, flappyY, jumpCount);
   return {
-    type: ActionTypes.UpdateGameEntities,
+    type: UpdateGameEntities,
     pillars: (timerRunning) ? getNewPillarPositions(pillarList, currentTime, startTime) : pillarList,
     borderPosition: (timerRunning) ? getNewBorderPosition(currentTime) : 0,
     newY,
@@ -107,10 +107,10 @@ export function updateScore(oldScore, newScore, highScore, uuid, name) {
     coin.play();
   }
   if (newScore > highScore) {
-    socket.emit('highScore', { uuid, score: newScore, name });
+    socket.emit(UpdateScore, { uuid, score: newScore, name });
   }
   return {
-    type: ActionTypes.UpdateScore,
+    type: UpdateScore,
     score: newScore
   }
 }
@@ -118,28 +118,28 @@ export function updateScore(oldScore, newScore, highScore, uuid, name) {
 export function gameOver() {
   crash.play();
   return {
-    type: ActionTypes.GameOver
+    type: GameOver
   }
 }
 
 export function highScores(highScores) {
   return {
-    type: ActionTypes.HighScores,
+    type: HighScores,
     highScores
   }
 }
 
 export function getUuid(uuid) {
   return {
-    type: ActionTypes.Uuid,
+    type: Uuid,
     uuid
   }
 }
 
 export function nameUpdate(name, uuid) {
-  socket.emit('nameChange', {name, uuid});
+  socket.emit(NameUpdate, {name, uuid});
   return {
-    type: ActionTypes.NameUpdate,
+    type: NameUpdate,
     name
   }
 }

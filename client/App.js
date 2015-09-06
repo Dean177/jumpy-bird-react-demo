@@ -1,18 +1,37 @@
+import '!style!css!less!./resources/styles/app.less';
 import React, { Component } from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { getUuid, highScores } from './ActionCreators';
+import { Uuid, HighScores } from '../shared/Constants/FlappyActionTypes';
+import { Goto } from '../shared/Constants/SlidesActionTypes';
+import { getUuid, highScores } from './ActionCreators/Flappy';
+import { gotoSlide } from './ActionCreators/Slides';
 import io from 'socket.io-client';
-import Reducer from './Reducer';
+import appReducer from './Reducers/index';
 import gameLoop from './gameLoop';
-import JumpyBird from './JumpyBird';
-import Slides from './Slides';
 
-const store = createStore(Reducer);
+import SlideWrapper from './SlideWrapper';
+import OpeningSlide from './Slides/OpeningSlide';
+import WhatItIs from './Slides/WhatItIs';
+import WhatItLooksLike from './Slides/WhatItLooksLike';
+import HowItWorks from './Slides/HowItWorks';
+import ViewFunctionState from './Slides/ViewFunctionState';
+import SoWhatAboutTheRest from './Slides/SoWhatAboutTheRest';
+import Architecture from './Slides/Architecture';
+import ImmutableData from './Slides/ImmutableData';
+import JumpyBird from './FlappyBird/JumpyBird';
+import TimeTravel from './Slides/TimeTravel';
+import Testing from './Slides/Testing';
+import ServerSide from './Slides/ServerSide';
+
+
+const store = createStore(appReducer);
 const onNewFrame = gameLoop(store);
+
 export const socket = io.connect(`http://${window.location.hostname}:9000`);
-socket.on('uuid', (uuid) => { store.dispatch(getUuid(uuid)); });
-socket.on('highScores', (newHighScores) => { store.dispatch(highScores(newHighScores)); });
+socket.on(Uuid, (uuid) => { store.dispatch(getUuid(uuid)); });
+socket.on(HighScores, (newHighScores) => { store.dispatch(highScores(newHighScores)); });
+socket.on(Goto, (slideNumber) => { store.dispatch(gotoSlide(slideNumber))});
 
 window.requestAnimationFrame(onNewFrame);
 
@@ -21,9 +40,20 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         {() =>
-          <Slides>
+          <SlideWrapper>
+            <OpeningSlide />
+            <WhatItIs />
+            <WhatItLooksLike />
+            <HowItWorks />
+            <ViewFunctionState />
+            <SoWhatAboutTheRest />
+            <Architecture />
+            <ImmutableData />
             <JumpyBird />
-          </Slides>
+            <TimeTravel />
+            <Testing />
+            <ServerSide />
+          </SlideWrapper>
         }
       </Provider>
     );

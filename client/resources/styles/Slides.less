@@ -1,0 +1,38 @@
+.slide-container {
+  margin: 0;
+  position: relative;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.standard-slide {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.opening-slide {
+  &:extend(.standard-slide);
+
+
+  .react-logo {
+    width: 400px;
+    height: 400px;
+    background-size: 100% 100%;
+    background-image: url(../images/react-logo.png);
+  }
+}
+
+.text-slide {
+  &:extend(.standard-slide);
+  color: white;
+  font-size: 30px;
+  padding: 20px;
+}
