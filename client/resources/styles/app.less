@@ -1,6 +1,14 @@
 @slide-background: rgb(32,35,50);
 @import './Slides';
 
+.fade-in-enter {
+  opacity: 0.01;
+  &.fade-in-enter-active {
+    opacity: 1;
+    transition: opacity .5s ease-in;
+  }
+}
+
 
 .retroText() {
   margin: 0;

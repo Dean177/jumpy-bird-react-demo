@@ -32,12 +32,12 @@ class Slides extends Component {
     const { slideNumber, children } = this.props;
     const slideNumberToRender = slideNumber % Children.count(children);
 
-
-
     return (
       <div className="slide-container">
-        <ReactCSSTransitionGroup transitionName="slideIn">
-          {children[slideNumberToRender]}
+        <ReactCSSTransitionGroup transitionName="fade-in" transitionLeave={false}>
+          <div key={slideNumber}>
+            {children[slideNumberToRender]}
+          </div>
         </ReactCSSTransitionGroup>
       </div>
     );
