@@ -29,7 +29,7 @@ const config  = {
         ]
       },
       { test: /\.less$/, loader: "style!css!less" },
-      { test: /\.png$/, loader: "file-loader" }
+      { test: /\.(png|gif)$/, loader: "file-loader" }
     ]
   }
 };
