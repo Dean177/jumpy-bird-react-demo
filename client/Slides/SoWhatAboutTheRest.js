@@ -4,7 +4,7 @@ export default class SoWhatAboutTheRest extends Component {
   render() {
     return (
       <div className="text-slide">
-        <p>So what about</p>
+        <h1>So what about</h1>
         <ul>
           <li>User interaction?</li>
           <li>Data fetching?</li>

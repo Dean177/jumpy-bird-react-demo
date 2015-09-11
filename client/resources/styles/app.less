@@ -1,5 +1,12 @@
 @slide-background: rgb(32,35,50);
-@import './Slides';
+@reactBlue: rgb(97, 218, 251);
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 
 .fade-in-enter {
   opacity: 0.01;
@@ -9,6 +16,9 @@
   }
 }
 
+a {
+  color: @reactBlue;
+}
 
 .retroText() {
   margin: 0;

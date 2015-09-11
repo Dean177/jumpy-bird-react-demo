@@ -19,7 +19,6 @@ io.on('connection', (socket) => {
   socket.emit(HighScores, highScores);
 
   socket.on(UpdateScore, (highScoreEvent) => {
-
     let  {uuid, name, score} = highScoreEvent;
     let players = highScores.filter((player) => { return player.uuid === uuid});
     if (players.length == 1) {
@@ -44,4 +43,4 @@ io.on('connection', (socket) => {
   socket.on(Goto, (slideNumber) => { socket.broadcast.emit(Goto, slideNumber); });
 });
 
-http.listen(9000, () => { console.log("Listening for connections"); });
+http.listen(9000, () => { console.log("Server listening for connections"); });

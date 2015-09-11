@@ -1,13 +1,13 @@
 import '!style!css!less!./resources/styles/Slides.less';
-import React, { Component, Children, PropTypes  } from 'react/addons';
+import React, { Component, Children, PropTypes  } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { connect } from 'react-redux';
 import { Left, Right, Space } from './Constants/KeyCodes';
 import { nextSlide, previousSlide, gotoSlide } from './ActionCreators/Slides';
 
-const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 @connect((state) => state.slides)
-class Slides extends Component {
+class SlideWrapper extends Component {
   static propTypes = {
     slideNumber: PropTypes.number
   };
@@ -30,18 +30,17 @@ class Slides extends Component {
 
   render() {
     const { slideNumber, children } = this.props;
+    const childElements = Children.toArray(children);
     const slideNumberToRender = slideNumber % Children.count(children);
 
     return (
       <div className="slide-container">
-        <ReactCSSTransitionGroup transitionName="fade-in" transitionLeave={false}>
-          <div key={slideNumber}>
-            {children[slideNumberToRender]}
-          </div>
+        <ReactCSSTransitionGroup transitionName="fade-in" transitionEnterTimeout={500} transitionLeave={false}>
+          {childElements[slideNumberToRender]}
         </ReactCSSTransitionGroup>
       </div>
     );
   }
 }
 
-export default Slides
+export default SlideWrapper

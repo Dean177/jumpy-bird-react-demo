@@ -13,9 +13,9 @@ import gameLoop from './gameLoop';
 import SlideWrapper from './SlideWrapper';
 import OpeningSlide from './Slides/OpeningSlide';
 import WhatItIs from './Slides/WhatItIs';
-import WhatItLooksLike from './Slides/WhatItLooksLike';
+import WhatItLooksLikeComplicated from './Slides/WhatItLooksLikeComplicated';
+import WhatItLooksLikeSimple from './Slides/WhatItLooksLikeSimple';
 import HowItWorks from './Slides/HowItWorks';
-import ViewFunctionState from './Slides/ViewFunctionState';
 import SoWhatAboutTheRest from './Slides/SoWhatAboutTheRest';
 import Architecture from './Slides/Architecture';
 import ImmutableData from './Slides/ImmutableData';
@@ -23,6 +23,7 @@ import JumpyBird from './FlappyBird/JumpyBird';
 import TimeTravel from './Slides/TimeTravel';
 import Testing from './Slides/Testing';
 import ServerSide from './Slides/ServerSide';
+import WhoUsesIt from './Slides/WhoUsesIt';
 
 
 const store = createStore(appReducer);
@@ -39,22 +40,21 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        {() =>
-          <SlideWrapper>
-            <OpeningSlide />
-            <WhatItIs />
-            <WhatItLooksLike />
-            <HowItWorks />
-            <ViewFunctionState />
-            <SoWhatAboutTheRest />
-            <Architecture />
-            <ImmutableData />
-            <JumpyBird />
-            <TimeTravel />
-            <Testing />
-            <ServerSide />
-          </SlideWrapper>
-        }
+        <SlideWrapper>
+          <OpeningSlide />
+          <WhatItIs />
+          <WhatItLooksLikeSimple />
+          <WhatItLooksLikeComplicated />
+          <HowItWorks />
+          <SoWhatAboutTheRest />
+          <Architecture />
+          <ImmutableData />
+          <JumpyBird />
+          <TimeTravel />
+          <Testing />
+          <ServerSide />
+          <WhoUsesIt />
+        </SlideWrapper>
       </Provider>
     );
   }

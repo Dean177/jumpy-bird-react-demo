@@ -16,7 +16,8 @@ const config  = {
     publicPath: '/assets/'
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
   ],
   module: {
     loaders: [
@@ -29,7 +30,7 @@ const config  = {
         ]
       },
       { test: /\.less$/, loader: "style!css!less" },
-      { test: /\.(png|gif)$/, loader: "file-loader" }
+      { test: /\.(png|gif|jpg)$/, loader: "file-loader" }
     ]
   }
 };

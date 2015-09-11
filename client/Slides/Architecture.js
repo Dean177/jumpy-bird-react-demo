@@ -1,4 +1,4 @@
-import '!style!css!../resources/styles/solarized_dark.css';
+import archDiagramUrl from '../resources/images/architecture-diagram.png';
 import Highlight from 'react-highlight';
 import React, { Component } from 'react';
 
@@ -6,27 +6,9 @@ export default class Architecture extends Component {
   render() {
     return (
       <div className="text-slide">
-        <div className="text-slide">
-          <p>redux: http://rackt.github.io/redux/index.html</p>
-          <p>redux = (state, action) => state</p>
-          <Highlight className='ascii' >
-          {`
- _________               ____________              ___________
-|         |             |            |            |           |
-| Action  |------------>|  Reducer   |----------->|   State   |
-|_________|             |____________|            |___________|
-     ?                                                  |
-     |                                                  |
-     |                                                  |
-     |                                                  |
-     |                                                  |
- ____|________                ___________               |
-|   User       |             |   React   |              |
-| interactions | <---------- |   Views   |<------------ |
-|______________|             |___________|
-          `}
-          </Highlight>
-        </div>
+        <p><a href="http://rackt.github.io/redux/index.html" target="__blank">Redux</a></p>
+        <p>Reducer = (state, action) => state</p>
+        <img className="arch-diagram" src={archDiagramUrl} />
       </div>
     );
   }

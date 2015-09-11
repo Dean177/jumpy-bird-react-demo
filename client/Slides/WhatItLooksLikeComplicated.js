@@ -24,6 +24,21 @@ class App extends Component {
     visibilityFilter: PropTypes.oneOf(['ALL', 'COMPLETED', 'ACTIVE']).isRequired
   };
 
+  constructor(props) {
+    super();
+    this.handleKeyDown = ({ keyCode, shiftKey, ctrlKey }) => {
+      if (keyCode === Left) { this.props.dispatch(previousSlide(this.props.slideNumber, shiftKey, ctrlKey)); }
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+  }
+
   render() {
     return (
       <div>
@@ -41,6 +56,11 @@ class App extends Component {
 export default App
           `}
         </Highlight>
+        <ul>
+          <li>PropTypes</li>
+          <li>Render method</li>
+          <li>Some lifecycle methods we wont worry about right now</li>
+        </ul>
       </div>
     );
   }

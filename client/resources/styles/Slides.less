@@ -18,15 +18,18 @@
   align-items: center;
 }
 
+.backgroundImage(@imgUrl) {
+  background-size: 100% 100%;
+  background-image: @imgUrl;
+}
+
 .opening-slide {
   &:extend(.standard-slide);
-
 
   .react-logo {
     width: 400px;
     height: 400px;
-    background-size: 100% 100%;
-    background-image: url(../images/react-logo.png);
+    .backgroundImage(url(../images/react-logo.png));
   }
 }
 
@@ -46,6 +49,65 @@
 .dev-tools-gif {
   width: 600px;
   height: 600px;
+  .backgroundImage(url(../images/dev-tools-example.gif));
+}
+
+.the-rest-slide {
+  &:extend(.text-slide);
+  height: 100%;
   background-size: 100% 100%;
-  background-image: url(../images/dev-tools-example.gif);
+  background-image: url(../images/puzzle.jpg);
+  h1, ul {
+    .translucent-back();
+  }
+}
+
+.universe-slide {
+  &:extend(.text-slide);
+  height: 100%;
+  background-size: 100% 100%;
+  background-image: url(../images/universe.jpg);
+}
+
+.translucent-back() {
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 1);
+  padding: 15px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.video-slide {
+  padding: 30px;
+  width: 100%;
+  height: 100%;
+  .video {
+    height: 100%;
+    width: 50%;
+    float: left;
+    display: flex;
+    flex-direction: column;
+    .youtube {
+      width: 100%;
+      flex-grow: 5;
+    }
+  }
+}
+
+.picture-slide {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  h1 {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    .translucent-back();
+  }
+
+  .image {
+    height: calc(100%  /3);
+    width: 25%;
+    background-size: cover;
+  }
 }

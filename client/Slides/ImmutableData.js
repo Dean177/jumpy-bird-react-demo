@@ -3,14 +3,14 @@ import React, { Component } from 'react';
 export default class ImmutableData extends Component {
   render() {
     return (
-      <div className="text-slide">
-        <div>
-          Mori: http://swannodette.github.io/mori/
-          Putting the dream machin to work: https://www.youtube.com/watch?v=SiFwRtCnxv4
+      <div className="video-slide">
+        <div className="video">
+          <h1><a href="http://swannodette.github.io/mori/" target="__blank">Mori</a></h1>
+          <iframe className="youtube" src="https://www.youtube.com/embed/SiFwRtCnxv4" frameborder="0" allowfullscreen></iframe>
         </div>
-        <div>
-          Immutable Js: https://facebook.github.io/immutable-js/
-          React.js Conf 2015 - Immutable Data and React: https://www.youtube.com/watch?v=I7IdS-PbEgI
+        <div className="video">
+          <h1><a href="https://facebook.github.io/immutable-js/" target="__blank">Immutable Js</a></h1>
+          <iframe className="youtube" src="https://www.youtube.com/embed/I7IdS-PbEgI" frameborder="0" allowfullscreen></iframe>
         </div>
       </div>
     );
