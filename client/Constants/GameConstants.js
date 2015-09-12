@@ -1,12 +1,12 @@
-export const bottomY = 561;
+export const bottomY = 562;
 export const firstPillarX = 500;
 export const flappyHeight = 41;
 export const flappyWidth = 57;
 export const flappyX = 212;
-export const gravity = 0.5;
-export const maxDownVelocity = 10;
+export const gravity = -0.015;
+export const maxDownVelocity = 20;
+export const jumpVel = 4.5;
 export const horizVel = -0.2;
-export const jumpVel = -9.5;
 export const pillarSpacing = 280;
 export const pillarGap = 190;
 export const pillarWidth = 86;

@@ -17,7 +17,7 @@ export function hasCollided(pillarList, flappyY) {
     .map((pillar) => { return inPillar(pillar.currentX) && !inPillarGap(flappyY, pillar.gapTop); })
     .reduce((acc, inPill) => { return acc || inPill;});
 
-  return  hasLanded(flappyY) || isInPillar;
+  return hasLanded(flappyY) || isInPillar;
 }
 
 export function getScore(flightTime) {

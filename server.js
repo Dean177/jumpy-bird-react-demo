@@ -19,7 +19,7 @@ io.on('connection', (socket) => {
   socket.emit(HighScores, highScores);
 
   socket.on(UpdateScore, (highScoreEvent) => {
-    let  {uuid, name, score} = highScoreEvent;
+    let  {uuid, score} = highScoreEvent;
     let players = highScores.filter((player) => { return player.uuid === uuid});
     if (players.length == 1) {
       players[0].score = score;

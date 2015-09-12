@@ -1,5 +1,5 @@
 import { socket } from './../App';
-import { UpdateGame, UpdateScore, GameOver, Start, Flap, Uuid, HighScores, NameUpdate  } from '../../shared/Constants/FlappyActionTypes';
+import { UpdateGame, UpdateScore, GameOver, Start, Flap } from '../../shared/Constants/FlappyActionTypes';
 import * as gc from './../Constants/GameConstants';
 import { jump, crash, coin } from './../resources/sounds/index';
 
@@ -16,8 +16,8 @@ export function startGame() {
   }
 }
 
-export function flap(timerRunning) {
-  if (timerRunning) {
+export function flap(isTimerRunning) {
+  if (isTimerRunning) {
     jump.pause();
     jump.currentTime = 0;
     jump.play();
@@ -29,12 +29,12 @@ export function flap(timerRunning) {
   };
 }
 
-export function updateScore(oldScore, newScore, highScore, uuid, name) {
+export function updateScore(oldScore, newScore, highScore, uuid) {
   if (newScore > oldScore) {
     coin.play();
   }
   if (newScore > highScore) {
-    socket.emit(UpdateScore, { uuid, score: newScore, name });
+    socket.emit(UpdateScore, { uuid, score: newScore });
   }
   return {
     type: UpdateScore,
@@ -46,27 +46,5 @@ export function gameOver() {
   crash.play();
   return {
     type: GameOver
-  }
-}
-
-export function highScores(highScores) {
-  return {
-    type: HighScores,
-    highScores
-  }
-}
-
-export function getUuid(uuid) {
-  return {
-    type: Uuid,
-    uuid
-  }
-}
-
-export function nameUpdate(name, uuid) {
-  socket.emit(NameUpdate, {name, uuid});
-  return {
-    type: NameUpdate,
-    name
   }
 }

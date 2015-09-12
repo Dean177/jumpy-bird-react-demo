@@ -7,12 +7,13 @@ export default function gameLoop(stateStore) {
 
   const timeStep = (timeStamp) => {
     store.dispatch(updateGame(timeStamp));
-    const state = store.getState().flappy;
-    const { flappyY, pillarList, timerRunning, startTime, score, highScore, uuid, name } = state;
-    if (timerRunning) {
-      store.dispatch(updateScore(score, getScore(timeStamp - startTime), highScore, uuid, name));
+    const state = store.getState();
+    const { flappyY, pillarList, isTimerRunning, startTime, score, highScore } = state.flappy;
+
+    if (isTimerRunning) {
+      store.dispatch(updateScore(score, getScore(timeStamp - startTime), highScore, state.gameDetails.uuid));
       if (hasCollided(pillarList, flappyY)) {
-        store.dispatch(gameOver())
+        store.dispatch(gameOver());
       }
     }
 

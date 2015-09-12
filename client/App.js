@@ -1,10 +1,10 @@
-import '!style!css!less!./resources/styles/app.less';
+import '!style!css!less!./resources/styles/App.less';
 import React, { Component } from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { Uuid, HighScores } from '../shared/Constants/FlappyActionTypes';
 import { Goto } from '../shared/Constants/SlidesActionTypes';
-import { getUuid, highScores } from './ActionCreators/Flappy';
+import { getUuid, highScores } from './ActionCreators/GameDetails';
 import { gotoSlide } from './ActionCreators/Slides';
 import io from 'socket.io-client';
 import appReducer from './Reducers/index';
@@ -19,7 +19,7 @@ import HowItWorks from './Slides/HowItWorks';
 import SoWhatAboutTheRest from './Slides/SoWhatAboutTheRest';
 import Architecture from './Slides/Architecture';
 import ImmutableData from './Slides/ImmutableData';
-import JumpyBird from './FlappyBird/JumpyBird';
+import FlappyDemoSlide from './Slides/FlappyDemoSlide';
 import TimeTravel from './Slides/TimeTravel';
 import Testing from './Slides/Testing';
 import ServerSide from './Slides/ServerSide';
@@ -36,12 +36,11 @@ socket.on(Goto, (slideNumber) => { store.dispatch(gotoSlide(slideNumber))});
 
 window.requestAnimationFrame(onNewFrame);
 
-export default class App extends Component {
+class App extends Component {
   render() {
     return (
       <Provider store={store}>
         <SlideWrapper>
-          <JumpyBird />
           <OpeningSlide />
           <WhatItIs />
           <WhatItLooksLikeSimple />
@@ -50,7 +49,7 @@ export default class App extends Component {
           <SoWhatAboutTheRest />
           <Architecture />
           <ImmutableData />
-
+          <FlappyDemoSlide />
           <TimeTravel />
           <Testing />
           <ServerSide />
@@ -60,3 +59,5 @@ export default class App extends Component {
     );
   }
 }
+
+export default App
