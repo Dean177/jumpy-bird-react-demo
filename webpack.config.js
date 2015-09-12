@@ -6,7 +6,7 @@ export const webpackPort = 9090;
 const config  = {
   devtool: 'eval',
   entry: [
-    `webpack-dev-server/client?http://localhost:${webpackPort}/`,
+    `webpack-dev-server/client?http://alpaca:${webpackPort}/`,
     'webpack/hot/only-dev-server',
     './client/index'
   ],

@@ -41,6 +41,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <SlideWrapper>
+          <JumpyBird />
           <OpeningSlide />
           <WhatItIs />
           <WhatItLooksLikeSimple />
@@ -49,7 +50,7 @@ export default class App extends Component {
           <SoWhatAboutTheRest />
           <Architecture />
           <ImmutableData />
-          <JumpyBird />
+
           <TimeTravel />
           <Testing />
           <ServerSide />

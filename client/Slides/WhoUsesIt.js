@@ -21,7 +21,7 @@ export default class WhoUsesIt extends Component {
         <h1 className="used-by"><a href="https://github.com/facebook/react/wiki/Sites-Using-React" target="_blank">It is gaining traction</a></h1>
         {usedBy.map((imageUrl) => {
           return (
-            <div className="image" style={{
+            <div className="image" key={imageUrl} style={{
                 backgroundImage: `url(${imageUrl})`
               }}>
             </div>
