@@ -8,13 +8,10 @@ const initialState = {
   flappyY: 200,
   highScore: 0,
   jumpCount: 0,
-  name: "New Player",
   score: 0,
   startTime: 0,
-  timerRunning: false,
-  uuid: null,
+  isTimerRunning: false,
   velocity: 0,
-  highScores: [],
   pillarList: [
     {
       startTime: 0,
@@ -30,22 +27,21 @@ function sineWavePosition(timeDelta) {
 }
 
 function getNewVelocity(timeDelta, velocity, flappyY) {
-  if (hasLanded(flappyY)) {
-    return 0;
-  } else if (velocity > gc.maxDownVelocity) {
+  if (velocity > gc.maxDownVelocity) {
     return gc.maxDownVelocity;
+  } else if (hasLanded(flappyY)) {
+    return 0;
   } else {
-    return velocity - ((timeDelta * gc.gravity) / 20);
+    return velocity - (timeDelta * gc.gravity);
   }
 }
 
-export function getNewFlappy(timestamp, timeSinceLastUpdate, velocity, flappyY, jumpCount, timerRunning) {
-  if (!timerRunning && jumpCount < 1) {
+export function getNewFlappy(timestamp, timeDelta, velocity, flappyY, jumpCount, isTimerRunning) {
+  if (!isTimerRunning && jumpCount < 1) {
     return sineWavePosition(timestamp, jumpCount);
   } else {
-    let newY = flappyY - (velocity * timeSinceLastUpdate / 50);
-    console.log("y change", flappyY - newY, "distance to travel", timeSinceLastUpdate * velocity);
-    if (hasLanded(newY)) {
+    let newY = flappyY + (velocity * timeDelta / 8);
+    if (newY > (gc.bottomY - gc.flappyHeight)) {
       return gc.bottomY - gc.flappyHeight;
     } else {
       return newY;
@@ -77,7 +73,10 @@ function translatePillars(pillarList, timeSinceStart) {
   });
 }
 
-function getNewPillarPositions(pillarList, currentTime, startTime) {
+function getNewPillarPositions(pillarList, currentTime, startTime, isTimerRunning) {
+  if (!isTimerRunning) {
+    return pillarList;
+  }
   let newPillars = translatePillars(pillarList, (currentTime - startTime))
     .filter(pillar => { return pillar.currentX > -gc.pillarWidth; });
 
@@ -90,39 +89,29 @@ function getNewPillarPositions(pillarList, currentTime, startTime) {
   return newPillars;
 }
 
-function getNewBorderPosition(currentTime) {
+function getNewBorderPosition(currentTime, isTimerRunning) {
+  if (!isTimerRunning) {
+    return 0;
+  }
+
   return translate(0, gc.horizVel, currentTime) % 23
 }
 
 export default function Reducer(state = initialState, action) {
   switch (action.type) {
     case UpdateGame:
+      const { velocity, flappyY, jumpCount, pillarList, isTimerRunning, startTime, lastUpdateTime } = state;
       const { timestamp } = action;
-      const { velocity, flappyY, jumpCount, pillarList, timerRunning, startTime, lastUpdateTime } = state;
-      const timeSinceLastUpdate = timestamp - lastUpdateTime;
+      const timeDelta = timestamp - lastUpdateTime;
 
-      let newPillarList;
-      let borderPosition;
-      let newVelocity;
-      if (timerRunning) {
-        newPillarList = getNewPillarPositions(pillarList, timestamp, startTime);
-        borderPosition = getNewBorderPosition(timestamp);
-        newVelocity = getNewVelocity(timeSinceLastUpdate, state.velocity, flappyY);
-      } else {
-        newPillarList = pillarList;
-        borderPosition = 0;
-        newVelocity = 0;
-      }
-
-      let newY = getNewFlappy(timestamp, timeSinceLastUpdate, newVelocity, flappyY, jumpCount, timerRunning);
-
+      const newVelocity = (!isTimerRunning && jumpCount < 1) ? 0 : getNewVelocity(timeDelta, velocity, flappyY);
       return {
         ...state,
         lastUpdateTime: timestamp,
-        flappyY: newY,
+        flappyY: getNewFlappy(timestamp, timeDelta, velocity, flappyY, jumpCount, isTimerRunning),
         velocity: newVelocity,
-        pillarList: newPillarList,
-        borderPosition
+        pillarList: getNewPillarPositions(pillarList, timestamp, startTime, isTimerRunning),
+        borderPosition: getNewBorderPosition(timestamp, isTimerRunning)
       };
 
     case UpdateScore:
@@ -137,7 +126,7 @@ export default function Reducer(state = initialState, action) {
       let newHighScore = (action.score > state.highScore) ? action.score : state.highScore;
       return {
         ...state,
-        timerRunning: false,
+        isTimerRunning: false,
         highScore: newHighScore
       };
 
@@ -145,38 +134,21 @@ export default function Reducer(state = initialState, action) {
       return {
         ...state,
         jumpCount: 0,
+        flappyY: 200,
         score: 0,
-        velocity: gc.jumpVel,
-        timerRunning: true,
+        velocity: -gc.jumpVel,
+        isTimerRunning: true,
+        pillarList: initialState.pillarList,
         startTime: performance.now(),
         lastUpdateTime: performance.now()
       };
 
     case Flap:
-      if ( ! state.timerRunning) { return state; }
+      if ( ! state.isTimerRunning) { return state; }
       return {
         ...state,
         jumpCount: state.jumpCount + 1,
-        velocity: gc.jumpVel
-      };
-
-    case Uuid:
-      if (state.uuid) { return state; }
-      return {
-        ...state,
-        uuid: action.uuid
-      };
-
-    case HighScores:
-      return {
-        ...state,
-        highScores: action.highScores
-      };
-
-    case NameUpdate:
-      return {
-        ...state,
-        name: action.name
+        velocity: -gc.jumpVel
       };
 
     default:
