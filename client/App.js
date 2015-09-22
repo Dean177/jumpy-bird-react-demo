@@ -23,7 +23,9 @@ import FlappyDemoSlide from './Slides/FlappyDemoSlide';
 import TimeTravel from './Slides/TimeTravel';
 import Testing from './Slides/Testing';
 import ServerSide from './Slides/ServerSide';
+import ReactNative from './Slides/ReactNative';
 import WhoUsesIt from './Slides/WhoUsesIt';
+import Questions from './Slides/Questions';
 
 
 const store = createStore(appReducer);
@@ -48,12 +50,14 @@ class App extends Component {
           <HowItWorks />
           <SoWhatAboutTheRest />
           <Architecture />
-          <ImmutableData />
           <FlappyDemoSlide />
           <TimeTravel />
+          <ImmutableData />
           <Testing />
           <ServerSide />
+          <ReactNative />
           <WhoUsesIt />
+          <Questions />
         </SlideWrapper>
       </Provider>
     );

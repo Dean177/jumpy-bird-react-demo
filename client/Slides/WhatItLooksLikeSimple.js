@@ -7,7 +7,7 @@ export default class WhatItLooksLikeSimple extends Component {
     return (
       <div className="code-slide">
         <p>
-          You can think of React components as functions that take in state and render HTML.
+          You can think of React components as functions that take in data and render HTML.
         </p>
         <p>
           Components can either be passed data (props), or materialize their own state and manage it over time (state)

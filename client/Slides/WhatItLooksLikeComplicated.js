@@ -31,13 +31,11 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  }
+  componentDidMount() { document.addEventListener('keydown', this.handleKeyDown); }
 
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
-  }
+  componentWillUnmount() { document.removeEventListener('keydown', this.handleKeyDown); }
+
+  onFilterChange(nextFilter) { console.log(nextFilter); }
 
   render() {
     return (
@@ -45,9 +43,7 @@ class App extends Component {
         <h1>Todo List</h1>
         <AddTodo onAddClick={ (text) => { addTodo(text); } } />
         <TodoList todos={visibleTodos} onTodoClick={ (index) => { completeTodo(index); } } />
-        <Footer
-          filter={visibilityFilter}
-          onFilterChange={ (nextFilter) => { setVisibilityFilter(nextFilter); } }/>
+        <Footer filter={visibilityFilter} onFilterChange={ this.onFilterChange }/>
       </div>
     );
   }
@@ -56,11 +52,6 @@ class App extends Component {
 export default App
           `}
         </Highlight>
-        <ul>
-          <li>PropTypes</li>
-          <li>Render method</li>
-          <li>Some lifecycle methods we wont worry about right now</li>
-        </ul>
       </div>
     );
   }
