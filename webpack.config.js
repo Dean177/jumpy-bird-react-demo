@@ -1,26 +1,38 @@
-var path = require('path');
-var webpack = require('webpack');
+import path from 'path';
+import webpack, { HotModuleReplacementPlugin } from 'webpack';
 
-module.exports = {
-    devtool: 'eval',
-    entry: [
-      'webpack-dev-server/client?http://localhost:3000/',
-      'webpack/hot/only-dev-server',
-      './src/index'
-    ],
-    output: {
-      path: path.join(__dirname, 'dist'),
-      filename: 'bundle.js',
-      publicPath: '/static/'
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin()
-    ],
-    module: {
-      loaders: [
-        { test: /\.js$/, loaders: ['react-hot', 'babel?stage=1'], include: path.join(__dirname, 'src') },
-        { test: /\.less$/, loader: "style!css!less" },
-        { test: /\.png$/, loader: "file-loader" }
-      ]
-    }
+export const webpackPort = 9090;
+
+const config  = {
+  devtool: 'eval',
+  entry: [
+    `webpack-dev-server/client?http://alpaca:${webpackPort}/`,
+    'webpack/hot/only-dev-server',
+    './client/index'
+  ],
+  output: {
+    path: path.join(__dirname, 'out/client'),
+    filename: 'bundle.js',
+    publicPath: '/assets/'
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ],
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loaders: ['react-hot', 'babel?stage=0'],
+        include: [
+          path.join(__dirname, 'client'),
+          path.join(__dirname, 'shared')
+        ]
+      },
+      { test: /\.less$/, loader: "style!css!less" },
+      { test: /\.(png|gif|jpg)$/, loader: "file-loader" }
+    ]
+  }
 };
+
+export default config;

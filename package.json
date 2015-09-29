@@ -1,12 +1,7 @@
 {
   "name": "react-flappy-demo",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Live coding demo",
-  "scripts": {
-    "start": "node webpack.server.js",
-    "lint": "eslint src",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:Dean177/jumpy-bird-react-demo.git"
@@ -19,17 +14,31 @@
     "babel-loader": "^5.3.2",
     "chai": "^3.2.0",
     "css-loader": "^0.16.0",
-    "keymirror": "^0.1.1",
+    "express": "^4.13.3",
+    "file-loader": "^0.8.4",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1",
+    "gulp-mocha": "^2.1.3",
+    "gulp-nodemon": "^2.0.4",
+    "gulp-util": "^3.0.6",
+    "highlight.js": "^8.8.0",
+    "http": "0.0.0",
     "less": "^2.5.1",
     "less-loader": "^2.2.0",
-    "mocha": "^2.2.5",
-    "react": "^0.13.3",
+    "mocha": "^2.3.0",
+    "node-uuid": "^1.4.3",
+    "nodemon": "^1.4.1",
+    "react": "^0.14.0-rc1",
+    "react-addons-css-transition-group": "^0.14.0-rc1",
+    "react-dom": "^0.14.0-rc1",
+    "react-highlight": "Dean177/react-highlight#master",
+    "react-hot-loader": "^1.3.0",
     "react-redux": "^1.0.1",
     "redux": "^1.0.1",
-    "react-hot-loader": "^1.3.0",
-    "webpack": "^1.12.0",
-    "webpack-dev-server": "^1.10.1",
+    "socket.io": "^1.3.6",
+    "socket.io-client": "^1.3.6",
     "style-loader": "^0.12.3",
-    "file-loader": "^0.8.4"
+    "webpack": "^1.12.0",
+    "webpack-dev-server": "^1.10.1"
   }
 }
