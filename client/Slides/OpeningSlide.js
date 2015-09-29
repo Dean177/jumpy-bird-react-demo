@@ -5,6 +5,7 @@ export default class OpeningSlide extends Component {
     return (
       <div className="opening-slide">
         <div className="react-logo" />
+        <a href="http://alpaca:9090/">http://alpaca:9090/</a>
       </div>
     );
   }

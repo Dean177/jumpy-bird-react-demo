@@ -76,17 +76,20 @@ class JumpyBird extends Component {
     const pillars = pillarList.map(this.getPillar);
     const buttonText = (jumpCount >= 1) ? "RESTART" : "START";
 
+
     return (
       <div className="board" onClick={this.handleClick}>
-        <h1 className="score">{score}</h1>
         { ( ! isTimerRunning) ? <a className="start-button" onClick={this.startGame}>{buttonText}</a> : <span /> }
+        <h1 className="score">{score}</h1>
+        <h3 className="jump-count">Flaps: {jumpCount}</h3>
+        <h3 className="high-score">High Score: {highScore}</h3>
         <div>
           {pillars}
         </div>
         <Flappy x={gc.flappyX} y={flappyY} velocity={velocity} />
         <div className="scrolling-border" style={{ backgroundPosition: borderPosition }}/>
-        <h3 className="jump-count">Flaps: {jumpCount}</h3>
-        <h3 className="high-score">High Score: {highScore}</h3>
+
+
       </div>
     );
   }

@@ -6,7 +6,7 @@ import Highlight from 'react-highlight';
 export default class WhatItLooksLike extends Component {
   render() {
     return (
-      <div className="code-slide">
+      <div className="code-slide complicated">
         <Highlight className='javascript'>
           {`
 import React, { Component, PropTypes } from 'react';

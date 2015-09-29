@@ -13,6 +13,7 @@ class Flappy extends Component {
       <div className="flappy" style={{
           left: x,
           top: y,
+          //transform: `rotate(${velocity*10}deg)`
           transform: `rotate(${velocity*4}deg)`
         }}></div>
     );
