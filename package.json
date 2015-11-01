@@ -31,7 +31,7 @@
     "react": "^0.14.0-rc1",
     "react-addons-css-transition-group": "^0.14.0-rc1",
     "react-dom": "^0.14.0-rc1",
-    "react-highlight": "Dean177/react-highlight#master",
+    "react-highlight": "0.5.1",
     "react-hot-loader": "^1.3.0",
     "react-redux": "^1.0.1",
     "redux": "^1.0.1",
